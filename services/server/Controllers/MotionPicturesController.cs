@@ -19,7 +19,7 @@ namespace server.Controllers {
     public class MotionPicturesController : ControllerBase {
 
         private readonly ILogger<MotionPicturesController> _log;
-        private readonly ApplicationDbContext _context;
+        private readonly MotionPictureDbContext _context;
 
         public class MotionPictureDTO {
             public string Name { get; set; }
@@ -27,7 +27,7 @@ namespace server.Controllers {
             public int ReleaseYear { get; set; }
         }
 
-        public MotionPicturesController(ILogger<MotionPicturesController> log, ApplicationDbContext context) {
+        public MotionPicturesController(ILogger<MotionPicturesController> log, MotionPictureDbContext context) {
             this._log = log;
             this._context = context;
 

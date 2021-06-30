@@ -6,9 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace server.Data {
-    public class ApplicationDbContext : DbContext {
+    public class MotionPictureDbContext : DbContext {
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {
+        public MotionPictureDbContext(DbContextOptions<MotionPictureDbContext> options) : base(options) {
         }
 
         public DbSet<MotionPicture> MotionPictures { get; set; }

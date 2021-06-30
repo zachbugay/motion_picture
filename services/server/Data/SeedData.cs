@@ -9,9 +9,9 @@ using server.Models;
 namespace server.Data {
     public class SeedData {
         public static void Initialize(IServiceProvider serviceProvider) {
-            using (var context = new ApplicationDbContext(
+            using (var context = new MotionPictureDbContext(
                 serviceProvider.GetRequiredService<
-                    DbContextOptions<ApplicationDbContext>>())) {
+                    DbContextOptions<MotionPictureDbContext>>())) {
                 // Look for any movies.
                 if (context.MotionPictures.Any()) {
                     return;   // DB has been seeded

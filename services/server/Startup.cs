@@ -27,8 +27,9 @@ namespace server {
                 .AddJsonOptions(options => {
                     options.JsonSerializerOptions.IgnoreNullValues = true;
                 });
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ApplicationDbContext"))
+            string connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
+            services.AddDbContext<MotionPictureDbContext>(options =>
+                options.UseSqlServer(connectionString)
             );
         }
 

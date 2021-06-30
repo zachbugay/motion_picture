@@ -8,7 +8,7 @@ using server.Data;
 
 namespace server.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(MotionPictureDbContext))]
     [Migration("20210628154924_InitialCreate")]
     partial class InitialCreate
     {

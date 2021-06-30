@@ -1,4 +1,4 @@
-# Server Startup for Development
+# Startup for Development
 ```sh
 docker-compose up --build
 ```

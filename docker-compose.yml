@@ -1,11 +1,11 @@
 version: "3.9"
 services:
-  server:
+  api:
     build:
-      context: ./services/server
+      context: ./services/api
       dockerfile: Dockerfile
     volumes:
-      - "./services/server:/usr/src/app"
+      - "./services/api:/usr/src/app"
     ports:
       - 5000:5000
     environment:
@@ -14,7 +14,7 @@ services:
       - db
   db:
     build:
-      context: ./services/server/db
+      context: ./services/api/db
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     ports:
         - "1433:1433"

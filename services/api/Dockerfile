@@ -7,14 +7,14 @@ ENV ASPNETCORE_ENVIRONMENT=Development
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["server.csproj", "./"]
-RUN dotnet restore "server.csproj"
+COPY ["api.csproj", "./"]
+RUN dotnet restore "api.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "server.csproj" -c Release -o /app/build
+RUN dotnet build "api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "server.csproj" -c Release -o /app/publish
+RUN dotnet publish "api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 

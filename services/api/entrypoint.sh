@@ -7,4 +7,4 @@ done
 
 echo "SqlServer started"
 
-dotnet server.dll
+dotnet api.dll

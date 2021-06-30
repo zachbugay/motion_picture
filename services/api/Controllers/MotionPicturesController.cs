@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
-using server.Data;
-using server.DTO;
-using server.Models;
+using api.Data;
+using api.DTO;
+using api.Models;
 
-namespace server.Controllers {
+namespace api.Controllers {
     [Route("api/[controller]/{id?}")]
     [ApiController]
     public class MotionPicturesController : ControllerBase {
@@ -49,7 +49,7 @@ namespace server.Controllers {
                     response.Payload = payload;
                     return Ok(response);
                 }
-                
+
                 MotionPicture result = await allMotionPictures.FirstOrDefaultAsync(motionPicture => motionPicture.ID == id);
 
                 if (result is null) {
@@ -124,7 +124,7 @@ namespace server.Controllers {
                     response.Message = $"Motion Picture with ID {id} not found";
                     return NotFound(response);
                 }
-                
+
                 _context.Remove(motionPicture);
                 await _context.SaveChangesAsync();
 

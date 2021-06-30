@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using server.Models;
+using api.Models;
 
-namespace server.Data {
+namespace api.Data {
     public class SeedData {
         public static void Initialize(IServiceProvider serviceProvider) {
             using (var context = new MotionPictureDbContext(

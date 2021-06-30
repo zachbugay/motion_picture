@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using server.Models;
+using api.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace server.Data {
+namespace api.Data {
     public class MotionPictureDbContext : DbContext {
 
         public MotionPictureDbContext(DbContextOptions<MotionPictureDbContext> options) : base(options) {

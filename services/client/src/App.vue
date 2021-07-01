@@ -9,6 +9,12 @@
       <div
         v-else
       >
+        <div class="text-end">
+          <button class="btn btn-primary">
+            <font-awesome-icon class="fa fa-cog fa-fw" :icon="['fas', 'plus-circle']" />
+            Add
+          </button>
+        </div>
         <table class="table table-striped table-hover table-bordered">
           <thead>
             <tr>

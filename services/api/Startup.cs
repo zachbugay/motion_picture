@@ -31,6 +31,12 @@ namespace api {
             services.AddDbContext<MotionPictureDbContext>(options =>
                 options.UseSqlServer(connectionString)
             );
+            services.AddCors(o => o.AddPolicy("AllowCors", builder =>
+            {
+                builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,8 +44,7 @@ namespace api {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
+            app.UseCors("AllowCors");
 
             app.UseRouting();
 

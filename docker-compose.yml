@@ -26,3 +26,12 @@ services:
       - "/var/opt/mssql/backups"
       - "/var/opt/sqlserver"
       - "/var/opt/mssql"
+  client:
+    build:
+      context: ./services/client
+      dockerfile: Dockerfile
+    volumes:
+      - ./services/client:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '8080:8080'

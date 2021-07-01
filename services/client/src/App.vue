@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="container text-center">
+  <div id="app" class="container p-5 text-center">
     <h1>Motion Pictures</h1>
     <section v-if="errored">
       <p>We're sorry, but we are unable to retrieve this information at the moment. Please try again later. </p>
@@ -9,7 +9,7 @@
       <div
         v-else
       >
-        <div class="text-end">
+        <div class="container p-1 text-end">
           <button class="btn btn-primary">
             <font-awesome-icon class="fa fa-cog fa-fw" :icon="['fas', 'plus-circle']" />
             Add

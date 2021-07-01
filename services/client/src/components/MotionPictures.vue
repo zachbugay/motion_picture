@@ -22,3 +22,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .fa:hover {
+    cursor: pointer;
+    transform: scale(1.5);
+  }
+</style>

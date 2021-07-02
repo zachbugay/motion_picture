@@ -1,6 +1,7 @@
 # base image
 FROM node:14.17.1-alpine
 
+EXPOSE 8080
 # set working directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app

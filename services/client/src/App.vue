@@ -64,7 +64,8 @@ export default {
     };
   },
   mounted: function() {
-    fetch('https://localhost:44324/api/motionpictures', {
+    // fetch('https://localhost:44324/api/motionpictures', {
+    fetch('http://localhost:5000/api/motionpictures', {
       method: 'GET'
     }).then((response) => {
       return response.json();

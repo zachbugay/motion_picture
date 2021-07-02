@@ -1,9 +1,9 @@
 <template>
   <div class="form-group col-md-4">
-    <label for="titleInput" class="form-label">Motion Picture Name</label>
+    <label for="titleInput" class="form-label">{{ inputLabel }}</label>
     <div class="input-group flex-wrap">
       <input
-        id="nameInput"
+        id="{{ id }}"
         v-model="name"
         placeholder="Name"
         class="form-control"
@@ -23,6 +23,10 @@
 <script>
   export default {
     name: "nameInput",
+    props: {
+      inputLabel: String,
+      id: String,
+    },
     data() {
       return {
         name: "",

@@ -10,10 +10,7 @@
         v-else
       >
         <div class="container p-1 text-end">
-          <button class="btn btn-primary">
-            <font-awesome-icon class="fa fa-cog fa-fw" :icon="['fas', 'plus-circle']" />
-            Add
-          </button>
+          <add-motion-picture-modal buttonMessage="Add"/>
         </div>
         <table class="table table-striped table-hover table-bordered">
           <thead>
@@ -40,21 +37,20 @@
             </tr>
           </tbody>
         </table>
-        <title-input></title-input>
       </div>
     </section>
   </div>
 </template>
 
 <script>
+import AddMotionPictureModal from './components/AddMotionPictureModal.vue';
 import MotionPictures from './components/MotionPictures.vue'
-import TitleInput from './components/TitleInput.vue';
 
 export default {
   name: 'App',
   components: {
     MotionPictures,
-    TitleInput
+    AddMotionPictureModal
   },
   data() {
     return {

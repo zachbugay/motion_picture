@@ -28,6 +28,9 @@ namespace api {
                     options.JsonSerializerOptions.IgnoreNullValues = true;
                 });
             string connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
+            if (connectionString == null) {
+                connectionString = Configuration.GetConnectionString("DefaultConnection");
+            }
             services.AddDbContext<MotionPictureDbContext>(options =>
                 options.UseSqlServer(connectionString)
             );

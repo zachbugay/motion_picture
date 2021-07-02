@@ -40,6 +40,7 @@
             </tr>
           </tbody>
         </table>
+        <title-input></title-input>
       </div>
     </section>
   </div>
@@ -47,11 +48,13 @@
 
 <script>
 import MotionPictures from './components/MotionPictures.vue'
+import TitleInput from './components/TitleInput.vue';
 
 export default {
   name: 'App',
   components: {
-    MotionPictures
+    MotionPictures,
+    TitleInput
   },
   data() {
     return {
@@ -61,7 +64,7 @@ export default {
     };
   },
   mounted: function() {
-    fetch('http://localhost:5000/api/motionpictures', {
+    fetch('https://localhost:44324/api/motionpictures', {
       method: 'GET'
     }).then((response) => {
       return response.json();
@@ -69,6 +72,7 @@ export default {
       this.motionPictures = data.payload.motionPictures;
     }).catch((error) => {
       console.log(error);
+      this.errored = true;
     }).finally(() => {
       this.loading = false;
     });

@@ -10,7 +10,13 @@
         v-else
       >
         <div class="container p-1 text-end">
-          <add-motion-picture-modal buttonMessage="Add"/>
+          <add-motion-picture-modal
+            buttonMessage="Add"
+            modalTitle="Add a Motion Picture"
+            apiUrl="http://localhost:5000/api/motionpictures"
+            :showModal=showAddModal
+            @showToastNotification="showToastMessage"
+          />
         </div>
         <table class="table table-striped table-hover table-bordered">
           <thead>
@@ -37,6 +43,10 @@
             </tr>
           </tbody>
         </table>
+        <toast-notification
+          :notificationMessage=toastMessage
+          :showToast=showToast
+        />
       </div>
     </section>
   </div>
@@ -45,18 +55,23 @@
 <script>
 import AddMotionPictureModal from './components/AddMotionPictureModal.vue';
 import MotionPictures from './components/MotionPictures.vue'
+import ToastNotification from './components/ToastNotification.vue';
 
 export default {
   name: 'App',
   components: {
     MotionPictures,
-    AddMotionPictureModal
+    AddMotionPictureModal,
+    ToastNotification
   },
   data() {
     return {
       motionPictures: [],
       loading: true,
-      errored: false
+      errored: false,
+      showAddModal: false,
+      showToast: false,
+      toastMessage: ""
     };
   },
   mounted: function() {
@@ -73,6 +88,11 @@ export default {
     }).finally(() => {
       this.loading = false;
     });
+  }, methods: {
+    showToastMessage(message) {
+      this.showToast = true;
+      this.toastMessage = message;
+    }
   }
 }
 </script>

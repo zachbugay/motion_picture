@@ -1,9 +1,9 @@
 <template>
-  <div class="form-group col-md-4">
-    <label for="titleInput" class="form-label">{{ inputLabel }}</label>
-    <div class="input-group flex-wrap">
+  <div class="row mb-3">
+    <!-- <label :for=id class="col-lg col-form-label">{{ inputLabel }}</label> -->
+    <div class="col-sm">
       <input
-        id="{{ id }}"
+        :id=id
         v-model="name"
         placeholder="Name"
         class="form-control"
@@ -13,6 +13,7 @@
             valid ? 'is-valid' : 'is-invalid',
         ]"
         required
+        @change="$emit('nameChange', $event.target.value)"
       />
       <div v-if="valid" class="valid-feedback">Looks good!</div>
       <div v-if="!valid" class="invalid-feedback"> {{ errorMessages.name }}</div>
@@ -23,6 +24,7 @@
 <script>
   export default {
     name: "nameInput",
+    emits: ["nameChange"],
     props: {
       inputLabel: String,
       id: String,
@@ -37,11 +39,11 @@
     watch: {
       name(value) {
         this.name = value;
-        this.validatename(value);
+        this.validateName(value);
       }
     },
     methods: {
-      validatename(value) {
+      validateName(value) {
         if (value === '' || value === null || value.value === 0) {
           this.errorMessages["name"] = "A name is required!";
           this.valid = false;

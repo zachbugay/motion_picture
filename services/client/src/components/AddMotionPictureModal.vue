@@ -7,22 +7,37 @@
     </button>
 
     <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
+    <div class="modal fade"
+      :class="[
+        showModal ? 'show' : 'hide'
+      ]"
+      id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Add a Motion Picture</h5>
+            <h5 class="modal-title" id="staticBackdropLabel">{{ modalTitle }}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
-            <title-input
-              inputLabel="Motion Picture Name"
-              id="nameInput"
-            />
-          </div>
+            <div class="modal-body">
+                <name-input
+                  inputLabel="Name"
+                  id="nameInput"
+                  @nameChange="nameChange"
+                />
+                <description-input
+                  inputLabel="Description"
+                  id="descriptionInput"
+                  @descChange="descChange"
+                />
+                <year-input
+                  inputLabel="Release Year"
+                  id="yearInput"
+                  @yearChange="yearChange"
+                />
+            </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Add Motion Picture</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button @click="click" type="button" class="btn btn-primary">Add</button>
           </div>
         </div>
       </div>
@@ -32,12 +47,65 @@
 </template>
 
 <script>
-import TitleInput from './TitleInput.vue';
+import DescriptionInput from './DescriptionInput.vue';
+import NameInput from './NameInput.vue';
+import YearInput from './YearInput.vue';
+
 export default {
-  components: { TitleInput },
+  components: { NameInput, DescriptionInput, YearInput },
     name: "AddMotionPictureModal",
+    emits: [
+      "showToastNotification"
+    ],
     props: {
-      "buttonMessage": String
+      "buttonMessage": String,
+      "modalTitle": String,
+      "apiUrl": String,
+      "showAddModal": Boolean
+    },
+    data() {
+      return {
+        nameValue: "",
+        descValue: "",
+        yearValue: "",
+        showModal: false
+      }
+    },
+    methods: {
+      nameChange(value) {
+        this.nameValue = value;
+      },
+      descChange(value) {
+        this.descValue = value;
+      },
+      yearChange(value) {
+        this.yearValue = value;
+      },
+      click() {
+        let payload = {
+          "Name": this.nameValue,
+          "Description": this.descValue,
+          "ReleaseYear": parseInt(this.yearValue)
+        };
+        console.log(JSON.stringify(payload));
+        fetch(this.apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        }).then((response) => {
+          return response.json();
+        }).then((data) =>  {
+          console.log(data);
+          this.$emit('showToastNotification', 'Successfully Uploaded!');
+          this.showModal = false;
+        }).catch((error) => {
+          console.log(error);
+        }).finally(() => {
+          console.log('end');
+        });
+      }
     }
   };
 </script>

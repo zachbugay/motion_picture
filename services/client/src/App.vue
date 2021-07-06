@@ -30,21 +30,22 @@
             :motionPicture=this.motionPictureForEdit
             @onShowToastNotification="showToastMessage"
             @onClickDelete="deleteMotionPicture"
+            @onClickEdit="editMotionPicture"
           />
         </div>
         <table class="table table-striped table-hover table-bordered">
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Release Year</th>
-              <th scope="col">Description</th>
+              <th scope="col" @click='sortByName'>Name</th>
+              <th scope="col" @click='sortByYear'>Release Year</th>
+              <th scope="col" @click='sortByDesc'>Description</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr
-              v-for="(obj, index) in motionPictures" v-bind:key="obj.id" v-bind="$attrs"
+              v-for="(obj, index) in motionPictures" v-bind:key="obj.id"
             >
             <motion-pictures
               class="row"
@@ -101,14 +102,12 @@ export default {
     this.fetchMotionPictures();
   }, methods: {
     showToastMessage(message) {
-      console.log("MESSAGE RECIEVED: ", message);
       this.showToast = true;
       this.toastMessage = message;
       this.fetchMotionPictures();
       setTimeout(() => this.showToast = false, 6000)
     },
     hideToastMessage() {
-      console.log('hideToastMessage');
       this.showToast = false;
     },
     editButtonClicked(value) {
@@ -130,10 +129,28 @@ export default {
       );
     },
     deleteMotionPicture(value) {
-      console.log('this is going to be deleted');
-      console.log(value);
       this.motionPictureForDeletion = value;
+    },
+    editMotionPicture(value) {
+      this.motionPictureForEdit = value;
+    },
+    sortByName() {
+      this.motionPictures.sort((a, b) => (a.name >= b.name) ? 1 : -1);
+    },
+    sortByYear() {
+      console.log(this.motionPictures);
+      this.motionPictures.sort((a, b) => (a.releaseYear >= b.releaseYear) ? 1 : -1);
+    },
+    sortByDesc() {
+      this.motionPictures.sort((a, b) => (a.description >= b.description) ? 1 : -1);
     }
   }
 }
 </script>
+
+<style>
+  th:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+  }
+</style>

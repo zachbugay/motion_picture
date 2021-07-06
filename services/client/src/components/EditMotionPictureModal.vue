@@ -38,7 +38,7 @@
             </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button id="btn-add-mp" @click="click" type="button" class="btn btn-primary"
+            <button id="btn-add-mp" @click="editMotionPicture" type="button" class="btn btn-primary"
               :class="[
                 (this.nameIsValid && this.descIsValid && this.yearIsValid) ? '' : 'disabled'
               ]"
@@ -105,17 +105,16 @@ export default {
       onValidYear(value) {
         this.yearIsValid = value;
       },
-
-      click() {
+      editMotionPicture() {
         let payload = {
-          "Name": this.nameValue,
-          "Description": this.descValue,
-          "ReleaseYear": parseInt(this.yearValue)
+          "Id": this.motionPicture.id,
+          "Name": this.nameValue === "" ? this.motionPicture.Name : this.nameValue,
+          "Description": this.descValue === "" ? this.motionPicture.Description : this.descValue,
+          "ReleaseYear": this.yearValue === "" ? parseInt(this.motionPicture.Year) : parseInt(this.yearValue)
         };
-        console.log("-=-=-- PAYLOAD IS -==-=-")
-        console.log(JSON.stringify(payload));
-        fetch(this.apiUrl, {
-          method: "POST",
+        console.log(payload);
+        fetch(`${this.apiUrl}/${this.motionPicture.id}`, {
+          method: "PUT",
           headers: {
             "Content-Type": "application/json"
           },
@@ -133,13 +132,9 @@ export default {
           const container = document.querySelector("#editStaticBackDrop");
           const modal = Modal.getInstance(container);
           modal.hide();
-          this.nameValue = "",
-          this.descValue = "",
-          this.yearValue = "",
-          console.log(this.$refs);
-          this.$emit("onShowToastNotification", "Successfully Uploaded!");
+          this.$emit("onShowToastNotification", "Successfully Updated Your Motion Picture!");
         }).catch((error) => {
-          this.$emit("onShowToastNotification", "There was an error trying to upload your Motion Picture.");
+          this.$emit("onShowToastNotification", "There was an error trying to update your Motion Picture.");
           console.log(error);
         }).finally(() => {
           console.log("end");

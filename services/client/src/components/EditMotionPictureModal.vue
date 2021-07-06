@@ -1,19 +1,12 @@
 <template>
   <div>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-      @click="refreshValues"
-    >
-      <font-awesome-icon class="fa fa-cog fa-fw" :icon="['fas', 'plus-circle']" />
-      {{ buttonMessage }}
-    </button>
-
     <!-- Modal -->
     <div class="modal fade"
-      id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      id="editStaticBackDrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editStaticBackDropLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">{{ modalTitle }}</h5>
+            <h5 class="modal-title" id="editStaticBackDropLabel">{{ modalTitle }}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
             <div class="modal-body">
@@ -23,21 +16,21 @@
                 <name-input
                   id="nameInput"
                   inputLabel="Name"
-                  :defaultValue=this.nameValue
+                  :defaultValue=motionPicture.Name
                   @nameChange="nameChange"
                   @nameIsValid="onValidName"
                 />
                 <description-input
                   id="descriptionInput"
                   inputLabel="Description"
-                  :defaultValue=this.descValue
+                  :defaultValue=motionPicture.Description
                   @descChange="descChange"
                   @descIsValid="onValidDesc"
                 />
                 <year-input
                   id="yearInput"
                   inputLabel="Release Year"
-                  :defaultValue=this.yearValue
+                  :defaultValue=motionPicture.Year
                   @yearChange="yearChange"
                   @yearIsValid="onValidYear"
                 />
@@ -49,12 +42,14 @@
               :class="[
                 (this.nameIsValid && this.descIsValid && this.yearIsValid) ? '' : 'disabled'
               ]"
-            >Add</button>
+            >Edit</button>
+            <button id="btn-add-mp" @click="deleteMotionPicture" type="button" class="btn bg-danger text-light"
+              data-bs-toggle="modal" data-bs-target="#deleteStaticBackdrop"
+            >Delete</button>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -66,8 +61,9 @@ import { Modal } from 'bootstrap';
 
 export default {
   components: { NameInput, DescriptionInput, YearInput },
-    name: "AddMotionPictureModal",
+    name: "EditMotionPictureModal",
     emits: [
+      "onEditClick",
       "onShowToastNotification",
     ],
     props: {
@@ -75,6 +71,7 @@ export default {
       "modalTitle": String,
       "apiUrl": String,
       "showAddModal": Boolean,
+      "motionPicture": Object
     },
     data() {
       return {
@@ -108,14 +105,7 @@ export default {
       onValidYear(value) {
         this.yearIsValid = value;
       },
-      refreshValues() {
-        this.nameValue= "",
-        this.descValue= "",
-        this.yearValue= "",
-        this.nameIsValid= false,
-        this.descIsValid= false,
-        this.yearIsValid= false
-      },
+
       click() {
         let payload = {
           "Name": this.nameValue,
@@ -140,7 +130,7 @@ export default {
           }
         }).then((data) => {
           data;
-          const container = document.querySelector("#staticBackdrop");
+          const container = document.querySelector("#editStaticBackDrop");
           const modal = Modal.getInstance(container);
           modal.hide();
           this.nameValue = "",
@@ -154,6 +144,12 @@ export default {
         }).finally(() => {
           console.log("end");
         });
+      },
+      deleteMotionPicture() {
+        const container = document.querySelector("#editStaticBackDrop");
+        const modal = Modal.getInstance(container);
+        modal.hide();
+        this.$emit("onClickDelete", this.motionPicture);
       }
     }
   };

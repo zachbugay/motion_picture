@@ -9,8 +9,9 @@
         class="form-control"
         type="number"
         :class="[
+          year === '' ? 'no-validate' : (
           valid === '' ? '' :
-            valid ? 'is-valid' : 'is-invalid',
+            valid ? 'is-valid' : 'is-invalid'),
         ]"
         required
         @change="$emit('yearChange', $event.target.value)"
@@ -25,10 +26,12 @@
   export default {
     name: "yearInput",
     emits: [
-      "yearChange"
+      "yearChange",
+      "yearIsValid"
     ],
     props: {
       inputLabel: String,
+      defaultValue: String,
       id: String,
     },
     data() {
@@ -42,6 +45,10 @@
       year(value) {
         this.year = value;
         this.validateYear(value);
+      },
+      defaultValue(value) {
+        this.year = value;
+        this.validateYear(value);
       }
     },
     methods: {
@@ -50,13 +57,16 @@
         if (value === '' || value === null || value.value === 0) {
           this.errorMessages["year"] = "A valid year is required!";
           this.valid = false;
+          this.$emit("yearIsValid", this.valid);
         } else if (value.length !== 4 || !value.match(regex)) {
           this.errorMessages["year"] = "Year must be in YYYY format!";
           this.valid = false;
+          this.$emit("yearIsValid", this.valid);
         }
         else {
           this.errorMessages["year"] = "";
           this.valid = true;
+          this.$emit("yearIsValid", this.valid);
         }
       }
     }

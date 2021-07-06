@@ -4,21 +4,62 @@
   <td class="col"> {{ releaseYear }} </td>
   <td class="col"> {{ description }} </td>
   <td class="col">
-    <font-awesome-icon class="fa fa-cog fa-fw" :icon="['fas', 'pen-square']" />
-    <font-awesome-icon class="fa fa-cog fa-fw" :icon="['fas', 'copy']" />
-    <font-awesome-icon class="fa fa-cog fa-fw" :icon="['fas', 'trash']" />
+    <font-awesome-icon class="fa fa-cog fa-fw" :icon="['fas', 'pen-square']" @click="editMotionPicture"
+      data-bs-toggle="modal" data-bs-target="#editStaticBackDrop"
+    />
+    <font-awesome-icon class="fa fa-cog fa-fw" :icon="['fas', 'copy']" @click="copyMotionPicture" />
   </td>
 </template>
 
 <script>
 export default {
-  name: 'MotionPictures',
+  name: "MotionPictures",
+  emits: [
+    "onShowToastNotification"
+  ],
   props: {
     id: Number,
     displayNumber: Number,
     name: String,
-    releaseYear: Number,
-    description: String
+    releaseYear: String,
+    description: String,
+    apiUrl: String
+  },
+  methods: {
+    copyMotionPicture() {
+      let payload = {
+          "Name": this.name,
+          "Description": this.description,
+          "ReleaseYear": parseInt(this.releaseYear)
+        };
+      console.log(JSON.stringify(payload));
+      fetch(this.apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      }).then((response) => {
+        return response.json();
+      }).then((data) =>  {
+        console.log(data);
+        this.$emit("onShowToastNotification", `Successfully Copied: ${this.name}!`);
+      }).catch((error) => {
+        console.log(error);
+      }).finally(() => {
+        console.log("end");
+      });
+    },
+    editMotionPicture() {
+      console.log("Edit This!")
+      console.log(this.releaseYear);
+      this.$emit("onEditClick", {
+        id: this.id,
+        Name: this.name,
+        Description: this.description,
+        Year: this.releaseYear
+      });
+    },
   }
 }
 </script>

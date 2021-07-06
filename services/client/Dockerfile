@@ -9,6 +9,7 @@ WORKDIR /usr/src/app
 # install and cache app dependencies.
 COPY package.json /usr/src/app/package.json
 COPY yarn.lock /usr/src/app/yarn.lock
+COPY . /usr/src/app
 RUN yarn install
 RUN yarn global add @vue/cli@4.5.13
 

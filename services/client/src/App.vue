@@ -11,11 +11,25 @@
       >
         <div class="container p-1 text-end">
           <add-motion-picture-modal
-            buttonMessage="Add"
             modalTitle="Add a Motion Picture"
+            buttonMessage="Add"
             apiUrl="http://localhost:5000/api/motionpictures"
             :showModal=showAddModal
-            @showToastNotification="showToastMessage"
+            @onShowToastNotification="showToastMessage"
+          />
+          <confirmation-modal
+            modalTitle="Are You Sure?"
+            :motionPicture=motionPictureForDeletion
+            @onShowToastNotification="showToastMessage"
+          />
+          <edit-motion-picture-modal
+            modalTitle="Edit a Motion Picture"
+            buttonMessage="Edit"
+            apiUrl="http://localhost:5000/api/motionpictures"
+            :showModal=showAddModal
+            :motionPicture=this.motionPictureForEdit
+            @onShowToastNotification="showToastMessage"
+            @onClickDelete="deleteMotionPicture"
           />
         </div>
         <table class="table table-striped table-hover table-bordered">
@@ -30,15 +44,18 @@
           </thead>
           <tbody>
             <tr
-              v-for="(obj, index) in motionPictures"  v-bind:key="obj.id"
+              v-for="(obj, index) in motionPictures" v-bind:key="obj.id" v-bind="$attrs"
             >
             <motion-pictures
               class="row"
               :id=obj.id
               :displayNumber="index + 1"
               :name="obj.name"
-              :releaseYear="obj.releaseYear"
+              :releaseYear="obj.releaseYear.toString()"
               :description="obj.description"
+              apiUrl="http://localhost:5000/api/motionpictures"
+              @onShowToastNotification="showToastMessage"
+              @onEditClick="editButtonClicked"
             />
             </tr>
           </tbody>
@@ -46,6 +63,7 @@
         <toast-notification
           :notificationMessage=toastMessage
           :showToast=showToast
+          @onHideToast="hideToastMessage"
         />
       </div>
     </section>
@@ -54,6 +72,8 @@
 
 <script>
 import AddMotionPictureModal from './components/AddMotionPictureModal.vue';
+import ConfirmationModal from './components/ConfirmationModal.vue';
+import EditMotionPictureModal from './components/EditMotionPictureModal.vue';
 import MotionPictures from './components/MotionPictures.vue'
 import ToastNotification from './components/ToastNotification.vue';
 
@@ -62,7 +82,9 @@ export default {
   components: {
     MotionPictures,
     AddMotionPictureModal,
-    ToastNotification
+    ToastNotification,
+    ConfirmationModal,
+    EditMotionPictureModal
   },
   data() {
     return {
@@ -71,27 +93,46 @@ export default {
       errored: false,
       showAddModal: false,
       showToast: false,
-      toastMessage: ""
+      toastMessage: "",
+      motionPictureForDeletion: {},
+      motionPictureForEdit: {}
     };
-  },
-  mounted: function() {
-    // fetch('https://localhost:44324/api/motionpictures', {
-    fetch('http://localhost:5000/api/motionpictures', {
-      method: 'GET'
-    }).then((response) => {
-      return response.json();
-    }).then((data) =>  {
-      this.motionPictures = data.payload.motionPictures;
-    }).catch((error) => {
-      console.log(error);
-      this.errored = true;
-    }).finally(() => {
-      this.loading = false;
-    });
+  }, created: function() {
+    this.fetchMotionPictures();
   }, methods: {
     showToastMessage(message) {
+      console.log("MESSAGE RECIEVED: ", message);
       this.showToast = true;
       this.toastMessage = message;
+      this.fetchMotionPictures();
+      setTimeout(() => this.showToast = false, 6000)
+    },
+    hideToastMessage() {
+      console.log('hideToastMessage');
+      this.showToast = false;
+    },
+    editButtonClicked(value) {
+      this.motionPictureForEdit = value;
+    },
+    fetchMotionPictures() {
+      fetch('http://localhost:5000/api/motionpictures', {
+          method: 'GET'
+        }).then((response) => {
+          return response.json();
+        }).then((data) =>  {
+          this.motionPictures = data.payload.motionPictures;
+        }).catch((error) => {
+          console.log(error);
+          this.errored = true;
+        }).finally(() => {
+          this.loading = false;
+        }
+      );
+    },
+    deleteMotionPicture(value) {
+      console.log('this is going to be deleted');
+      console.log(value);
+      this.motionPictureForDeletion = value;
     }
   }
 }

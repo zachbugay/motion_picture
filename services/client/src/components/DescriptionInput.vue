@@ -9,8 +9,9 @@
           class="form-control"
           type="text"
           :class="[
+            description === '' ? 'no-validate' : (
             valid === '' ? '' :
-              valid ? 'is-valid' : 'is-invalid',
+              valid ? 'is-valid' : 'is-invalid'),
           ]"
           required
           rows="10"
@@ -30,6 +31,7 @@
     ],
     props: {
       inputLabel: String,
+      defaultValue: String,
       id: String,
     },
     data() {
@@ -43,6 +45,10 @@
       description(value) {
         this.description = value;
         this.validateDescription(value);
+      },
+      defaultValue(value) {
+        this.description = value;
+        this.validateDescription(value);
       }
     },
     methods: {
@@ -50,9 +56,11 @@
         if (value.length > 500) {
           this.errorMessages["description"] = "Your description must not exceed 500 characters.";
           this.valid = false;
+          this.$emit("descIsValid", this.valid = true);
         } else {
             this.errorMessages["description"] = "";
             this.valid = true;
+            this.$emit("descIsValid", this.valid = true);
         }
       }
     }

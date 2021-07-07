@@ -42,7 +42,7 @@
               :class="[
                 (this.nameIsValid && this.descIsValid && this.yearIsValid) ? '' : 'disabled'
               ]"
-            >Edit</button>
+            >Save</button>
             <button id="btn-add-mp" @click="deleteMotionPicture" type="button" class="btn bg-danger text-light"
               data-bs-toggle="modal" data-bs-target="#deleteStaticBackdrop"
             >Delete</button>

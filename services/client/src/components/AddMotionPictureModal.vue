@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div data-cy="add-motion-picture-modal">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+      data-cy="add-motion-picture-btn"
       @click="refreshValues"
     >
       <font-awesome-icon class="fa fa-cog fa-fw" :icon="['fas', 'plus-circle']" />
@@ -49,6 +50,7 @@
               :class="[
                 (this.nameIsValid && this.descIsValid && this.yearIsValid) ? '' : 'disabled'
               ]"
+              data-cy="add-modal-submit-btn"
             >Add</button>
           </div>
         </div>

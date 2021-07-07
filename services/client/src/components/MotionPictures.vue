@@ -28,11 +28,10 @@ export default {
   methods: {
     copyMotionPicture() {
       let payload = {
-          "Name": this.name,
-          "Description": this.description,
-          "ReleaseYear": parseInt(this.releaseYear)
-        };
-      console.log(JSON.stringify(payload));
+        "Name": this.name,
+        "Description": this.description,
+        "ReleaseYear": parseInt(this.releaseYear)
+      };
       fetch(this.apiUrl, {
         method: "POST",
         headers: {
@@ -43,16 +42,12 @@ export default {
         return response.json();
       }).then((data) =>  {
         console.log(data);
-        this.$emit("onShowToastNotification", `Successfully Copied: ${this.name}!`);
+        this.$emit("onShowToastNotification", `Successfully Copied: ${data.name}!`);
       }).catch((error) => {
         console.log(error);
-      }).finally(() => {
-        console.log("end");
       });
     },
     editMotionPicture() {
-      console.log("Edit This!")
-      console.log(this.releaseYear);
       this.$emit("onEditClick", {
         id: this.id,
         Name: this.name,

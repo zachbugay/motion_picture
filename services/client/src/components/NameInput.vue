@@ -15,6 +15,7 @@
         ]"
         required
         @change="$emit('nameChange', $event.target.value)"
+        data-cy="name-input"
       />
       <div v-if="valid" class="valid-feedback">Looks good!</div>
       <div v-if="!valid" class="invalid-feedback"> {{ errorMessages.name }}</div>

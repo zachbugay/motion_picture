@@ -12,7 +12,7 @@
           @click="clickedClose"
         ></button>
       </div>
-      <div class="toast-body">
+      <div class="toast-body" data-cy="toast-message">
         {{ notificationMessage }}
       </div>
     </div>

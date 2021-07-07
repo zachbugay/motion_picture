@@ -16,6 +16,7 @@
           required
           rows="10"
           @change="$emit('descChange', $event.target.value)"
+          data-cy="desc-input"
         />
         <div v-if="valid" class="valid-feedback">Looks good!</div>
         <div v-if="!valid" class="invalid-feedback"> {{ errorMessages.description }}</div>

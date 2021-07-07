@@ -15,6 +15,7 @@
         ]"
         required
         @change="$emit('yearChange', $event.target.value)"
+        data-cy="year-input"
       />
       <div v-if="valid" class="valid-feedback">Looks good!</div>
       <div v-if="!valid" class="invalid-feedback"> {{ errorMessages.year }}</div>

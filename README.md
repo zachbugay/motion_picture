@@ -20,3 +20,12 @@ application was created using Entity Framework Core Code First.
 
 ### ./services/client
 This folder contains the client, and some basic cypress integration tests.
+
+
+# Startup For Development Without Docker
+If you want to run these without Docker, then you would have to run each application indvidually, and wire up the
+following:
+
+- Adjust the connection to the database for the API by changing the connection string in the `./services/api/appsettings.json` file. Currently, the connection string is being pulled from an environment variable.
+
+- Adjust the connection to the API from the Client. The Client needs to point to the URL of the api. That can be changed in the `.env` file in `./services/client`

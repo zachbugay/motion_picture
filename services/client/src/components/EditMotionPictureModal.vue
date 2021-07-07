@@ -71,7 +71,7 @@ export default {
       "modalTitle": String,
       "apiUrl": String,
       "showAddModal": Boolean,
-      "motionPicture": Object
+      "motionPicture": Object,
     },
     data() {
       return {
@@ -113,7 +113,7 @@ export default {
           "ReleaseYear": this.yearValue === "" ? parseInt(this.motionPicture.Year) : parseInt(this.yearValue)
         };
         console.log(payload);
-        fetch(`${this.apiUrl}/${this.motionPicture.id}`, {
+        fetch(`${this.apiUrl}/api/motionpictures/${this.motionPicture.id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"

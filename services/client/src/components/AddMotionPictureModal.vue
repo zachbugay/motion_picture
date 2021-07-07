@@ -126,7 +126,7 @@ export default {
         };
         console.log("-=-=-- PAYLOAD IS -==-=-")
         console.log(JSON.stringify(payload));
-        fetch(this.apiUrl, {
+        fetch(`${this.apiUrl}/api/motionpictures`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"

@@ -13,7 +13,7 @@
           <add-motion-picture-modal
             modalTitle="Add a Motion Picture"
             buttonMessage="Add"
-            apiUrl="http://localhost:5000/api/motionpictures"
+            :apiUrl='this.apiUrl'
             :showModal=showAddModal
             @onShowToastNotification="showToastMessage"
           />
@@ -25,7 +25,7 @@
           <edit-motion-picture-modal
             modalTitle="Edit a Motion Picture"
             buttonMessage="Edit"
-            apiUrl="http://localhost:5000/api/motionpictures"
+            :apiUrl='this.apiUrl'
             :showModal=showAddModal
             :motionPicture=this.motionPictureForEdit
             @onShowToastNotification="showToastMessage"
@@ -54,7 +54,7 @@
               :name="obj.name"
               :releaseYear="obj.releaseYear.toString()"
               :description="obj.description"
-              apiUrl="http://localhost:5000/api/motionpictures"
+              :apiUrl='this.apiUrl'
               @onShowToastNotification="showToastMessage"
               @onEditClick="editButtonClicked"
             />
@@ -96,7 +96,8 @@ export default {
       showToast: false,
       toastMessage: "",
       motionPictureForDeletion: {},
-      motionPictureForEdit: {}
+      motionPictureForEdit: {},
+      apiUrl: process.env.VUE_APP_MP_APIURL
     };
   }, created: function() {
     this.fetchMotionPictures();
@@ -114,7 +115,7 @@ export default {
       this.motionPictureForEdit = value;
     },
     fetchMotionPictures() {
-      fetch('http://localhost:5000/api/motionpictures', {
+      fetch(`${this.apiUrl}/api/motionpictures`, {
           method: 'GET'
         }).then((response) => {
           return response.json();
@@ -143,7 +144,7 @@ export default {
     },
     sortByDesc() {
       this.motionPictures.sort((a, b) => (a.description >= b.description) ? 1 : -1);
-    }
+    },
   }
 }
 </script>

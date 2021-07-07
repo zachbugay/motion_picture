@@ -35,7 +35,7 @@ export default {
     },
     methods: {
       clickedDeleteConfirmation() {
-        fetch(`http://localhost:5000/api/motionpictures/${this.motionPicture.id}`, {
+        fetch(`${process.env.VUE_APP_MP_APIURL}/api/motionpictures/${this.motionPicture.id}`, {
             method: 'DELETE',
             body: {}
           }).then((response) => {
